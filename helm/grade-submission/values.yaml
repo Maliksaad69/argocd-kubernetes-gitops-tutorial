@@ -12,7 +12,7 @@ service:
 
 resources:
   limits:
-    cpu: 500m
+    cpu: 100m
     memory: 256Mi
   requests:
     cpu: 250m
