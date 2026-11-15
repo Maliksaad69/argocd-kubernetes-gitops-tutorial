@@ -43,27 +43,22 @@ Before you begin, ensure you have:
    - Local: [Minikube](https://minikube.sigs.k8s.io/), [Kind](https://kind.sigs.k8s.io/), [k3d](https://k3d.io/), or **Docker Desktop** (Kubernetes enabled).
    - Cloud: EKS, GKE, or AKS.
 2. **`kubectl`** installed and configured to communicate with your cluster.
-3. **`helm`** (v3+) installed.
-4. **Git** and a **GitHub account** (fork or push this repository to your own account).
+3. **Git** and a **GitHub account** (fork or push this repository to your own account).
 
 ---
 
 ## 🚀 Step-by-Step Guide
 
-### Step 1: Install ArgoCD on Your Cluster
+### Step 1: Install ArgoCD on Your Cluster (Official Manifests)
 
-Add the official Argo Helm chart repository and install ArgoCD:
+Install ArgoCD using the official manifests from the [Argo CD Getting Started Guide](https://argo-cd.readthedocs.io/en/stable/getting_started/):
 
 ```bash
-# Add Argo Helm repository and update
-helm repo add argo https://argoproj.github.io/argo-helm
-helm repo update
-
-# Create the dedicated namespace
+# 1. Create the dedicated namespace
 kubectl create namespace argocd
 
-# Install ArgoCD via Helm
-helm install argocd argo/argo-cd --namespace argocd --version 7.7.0
+# 2. Apply the official installation manifests
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
 Verify that all ArgoCD pods are running:
@@ -72,7 +67,7 @@ Verify that all ArgoCD pods are running:
 kubectl get pods -n argocd
 ```
 
-*(Wait until all pods show `Running` or `Completed`.)*
+*(Wait until all pods show `Running` or `Completed` before proceeding.)*
 
 ---
 
@@ -247,7 +242,7 @@ kubectl delete -f argocd/applications/basic-application.yaml
 
 To uninstall ArgoCD:
 ```bash
-helm uninstall argocd -n argocd
+kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 kubectl delete namespace argocd
 kubectl delete namespace grade-demo
 ```
